@@ -3,16 +3,17 @@
 exec 1>&2
 
 commit_msg_file=$(cat $1)
+echo "$commit_msg_file"
+if [ -n "$commit_msg_file" ]; then
+	if ! [[ $commit_msg_file =~ ^[[:upper:]] ]]; then
+			echo "Error: ""$commit_msg_file"" Commit message must start with a capital letter." >&2
+			exit 1
+	fi
 
-if ! [[ $commit_msg_file =~ ^[[:upper:]] ]]; then
-		echo "Error: ""$commit_msg_file"" Commit message must start with a capital letter." >&2
-		exit 1
+	if [[ ${commit_msg_file: -1} != '.' ]]; then
+			echo "Error: ""$commit_msg_file"" Commit message must end with a period." >&2
+			exit 1
+	fi
 fi
-
-if [[ ${commit_msg_file: -1} != '.' ]]; then
-		echo "Error: ""$commit_msg_file"" Commit message must end with a period." >&2
-		exit 1
-fi
-
 
 exit 0
